@@ -17,7 +17,7 @@ class SpecFormer(L.LightningModule):
         embed_dim: int,
         num_layers: int,
         num_heads: int,
-        max_len: int,
+        max_len: int = 7781,
         mask_num_chunks: int = 6,
         mask_chunk_width: int = 50,
         slice_section_length: int = 20,
@@ -117,6 +117,8 @@ class SpecFormer(L.LightningModule):
         return torch.stack([self._mask_seq(el) for el in x])
 
     def preprocess(self, x):
+        
+
         std, mean = x.std(1, keepdim=True).clip_(0.2), x.mean(1, keepdim=True)
         x = (x - mean) / std
         x = self._slice(x)
